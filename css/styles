@@ -1,0 +1,115 @@
+.form{
+    position: fixed;
+    top: 15%;
+}
+
+.form-0{
+    position: fixed;
+    top: 10%;
+}
+
+.form-1{
+    position: fixed;
+    top: 10%;
+}
+
+.logo-lg {
+    text-align: center;
+}
+.google-img {
+    align-items: center;
+    width: 24px;
+    padding-right: 10px;
+}
+.apple-img {
+    align-items: center;
+    width: 20px;
+    padding-right: 10px;
+}
+
+.wh-btn{
+    align-items: center;
+    display: flex;
+    padding-left: 100px;
+}
+label{
+    display: flex;
+    left: 0;
+}
+.bs-form{
+    display: inline;
+    flex-direction: column;  /* Stack the form elements vertically */
+    justify-content: space-between;
+    
+}
+.ant-form{
+    display: flex;
+    flex-direction: column;  /* Stack the form elements vertically */
+    align-items: center; 
+    margin-top: 10px;
+    gap: 15px;
+}
+.input-bx{
+    width: 85%;
+    justify-items: center;
+    position: flex;
+    left: 50px;
+    padding-left: 10px;
+    margin-left: 20px;
+}
+.tx{
+    display: flex;
+    float: left;
+    left: 50;
+    padding-left: 20px;
+    padding-bottom: 5px;
+}
+.password{
+    padding-top: 20px;
+    padding-left: 20px;
+}
+
+.forgot{
+    float: right;
+    align-items: right;
+    right: 50;
+    padding-right: 20px;
+    padding-top: 20px;
+}
+ .remember{
+    display: flex;
+    float: left;
+    left: 50;
+    padding-left: 20px;
+}
+ button{
+    width: 91%
+ } 
+ 
+ .eye-icon {
+    display: flex;
+    right: 30px;
+    top: 270px;
+    justify-content: right;
+    align-items: right;
+    position: absolute;
+
+  }
+  svg {
+    width: 16px; /* ขนาดไอคอน */
+    height: 16px;
+  }
+  .login{
+    justify-items: center;
+    position: flex;
+    padding-left: 19px;
+    padding-top: 10px;
+    width: 95%;
+    margin: 30px 0;
+  }
+  .donthave{
+    justify-items: center;
+    position: flex;
+    margin: 10px 0;
+  }
+  
