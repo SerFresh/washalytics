@@ -10,7 +10,7 @@
     --red-color: #FF796D;
     --blue-gray: #7399AA;
     --gray-color: #F5F5F5;
-    --gray-light: #D9D9D9;
+    --gray-light: #bbbbbb;
     --white-color: #ffffff;
     --black-color: #000000;
 }
@@ -49,10 +49,20 @@ a {
 .blue-border{
     color: var(--main-color-dark);
     background-color: var(--white-color);
-    color: var(--blue-gray);
     font-size: 16px;
     padding: 9px;
     border: 2px solid var(--main-color);
+    border-radius: 10px;
+}
+
+.ana-btn {
+    margin: 5px;
+    background-color: var(--white-color);
+    color: var(--main-color);
+    height: fit-content;
+    font-size: 16px;
+    padding: 9px;
+    border: 1px solid var(--blue-gray);
     border-radius: 10px;
 }
 
@@ -120,6 +130,18 @@ a {
 }
 
 #scrollx::-webkit-scrollbar {
+    display: none;
+}
+
+#scrolly {
+    overflow-y: auto; /* เลื่อนในแนวตั้ง */
+    display: flex; /* ใช้ flexbox สำหรับจัดเรียง item */
+    flex-direction: column; /* จัดเรียงให้เป็นคอลัมน์ */
+    scroll-snap-type: y mandatory; /* การ snap ในแนว Y */
+    padding: 0 10px; /* เพิ่ม padding สำหรับการเลื่อน */
+}
+
+#scrolly::-webkit-scrollbar {
     display: none;
 }
 
@@ -376,5 +398,15 @@ a {
         opacity: 1;
         scale: 1;
         filter: alpha(opacity=100);
+    }
+}
+
+@keyframes moveup {
+    from {
+        transform: translateY(100%);
+    }
+
+    to {
+        transform: translateY(0%);
     }
 }
