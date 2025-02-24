@@ -1,13 +1,17 @@
 import React from 'react';
-import { Review, Machine, Profile } from './components/Data.js';
+import { Review, Machine, Profile, Income } from './components/Data.js';
 import Reviews from './components/Reviews.js';
 import Machines from './components/machine.js';
 import MachineDetail from './components/machinedetail.js';
+import Finances from './components/finance.js';
+import Analytics from './components/analytics.js';
 import './App.css';
+import './components/finance.css'
 import './registers/styles.css'
 import './components/home.css'
 import './components/review.css'
 import './components/machine.css'
+import './components/analytics.css'
 import AddMachine from './components/add_machine.js';
 import Home from './components/home'; 
 import Firstpage from './registers/firstpage';
@@ -19,42 +23,51 @@ import Profiles from './registers/profile.js';
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 
 function App() {
-    return (
-        <Router>
-        <div className="App">
-          <Routes>
-            {/* เส้นทางสำหรับหน้าแรก */}
-            <Route path="/" element={<Firstpage />} />
-            
-            {/* เส้นทางสำหรับ Log in */}
-            <Route path="/login" element={<Login />} />
+  return (
+      <Router>
+      <div className="App">
+        <Routes>
+          {/* Route for the first page */}
+          <Route path="/" element={<Firstpage />} />
+          
+          {/* Route for Login */}
+          <Route path="/login" element={<Login />} />
 
-            {/* เส้นทางสำหรับ Sign up */}
-            <Route path="/signup" element={<Signup />} />
+          {/* Route for Signup */}
+          <Route path="/signup" element={<Signup />} />
 
-            {/* เส้นทางสำหรับ Sign up */}
-            <Route path="/add_branch" element={<Addbransh />} />
+          {/* Route for Add Branch */}
+          <Route path="/add_branch" element={<Addbransh />} />
 
-            {/* เส้นทางสำหรับ Sign up */}
-            <Route path="/information_laundry" element={<LaundryInfo />} />
+          {/* Route for Laundry Info */}
+          <Route path="/information_laundry" element={<LaundryInfo />} />
 
-            {/* เส้นทางสำหรับ Main */}
-            <Route path="/Home" element={<Home Profile={Profile} Review={Review} Machine={Machine}/>} />
+          {/* Route for Home */}
+          <Route path="/home" element={<Home Profile={Profile} Review={Review} Machine={Machine}/>} />
 
-            {/* เส้นทางสำหรับ Main */}
-            <Route path="/Review" element={<Reviews Profile={Profile} Review={Review}/>} />
+          {/* Route for Reviews */}
+          <Route path="/review" element={<Reviews Profile={Profile} Review={Review}/>} />
 
-            {/* เส้นทางสำหรับ Main */}
-            <Route path="/add" element={<AddMachine/>} />
+          {/* Route for Add Machine */}
+          <Route path="/add" element={<AddMachine />} />
 
-            <Route path="/Machine" element={<Machines Profile={Profile} Machine={Machine} />} />
-            <Route path="/Machine/:ID" element={<MachineDetail Machine={Machine} />} />
+          {/* Route for Machines */}
+          <Route path="/machine" element={<Machines Profile={Profile} Machine={Machine} />} />
 
-            <Route path="/Profile" element={<Profiles Profile={Profile}/>} />
-          </Routes>
-        </div>
-      </Router>
-    );
+          {/* Route for Machine Details */}
+          <Route path="/machine/:ID" element={<MachineDetail Machine={Machine} />} />
+
+          {/* Route for Profile */}
+          <Route path="/profile" element={<Profiles Profile={Profile}/>} />
+
+          {/* Route for Accounting */}
+          <Route path="/accounting" element={<Finances Profile={Profile} Income={Income}/>} />
+
+          <Route path="/Analytics" element={<Analytics Profile={Profile} Machine={Machine} Income={Income}/>} />
+        </Routes>
+      </div>
+    </Router>
+  );
 }
 
 export default App;
