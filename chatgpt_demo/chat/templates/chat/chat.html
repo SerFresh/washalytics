@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ChatGPT Demo</title>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <link rel="icon" href="bot.png" />
+    <link rel="stylesheet" href=/static/chat/chatstyle.css />
+</head>
+<body>
+    <div id="chat-container">  
+        <h1>WashAlytic Chatbot</h1>  <!-- No need for extra <div>, it's already centered in CSS -->
+        
+        <div id="chat-messages">
+            <!-- Chat messages will appear here -->
+        </div>
+        
+        <div style="display: flex; padding: 10px;">
+            <input type="text" id="user-input" placeholder="Type your message...">
+            <button onclick="sendMessage()">Send</button>
+        </div>
+    </div>
+    <script>
+        function sendMessage() {
+            var userInput = $('#user-input').val();
+            if (userInput.trim() !== '') {
+                $('#chat-messages').append('<div class="message user-message"><strong>You:</strong> ' + userInput + '</div>');
+                $('#user-input').val('');
+
+                $.ajax({
+                    url: '{% url "chat" %}',  // Replace with the actual URL if needed
+                    type: 'POST',
+                    data: {
+                        'message': userInput
+                    },
+                    success: function(response) {
+                        $('#chat-messages').append('<div class="message bot-message"><strong>AI:</strong> ' + response.message + '</div>');
+                        $('#chat-messages').scrollTop($('#chat-messages')[0].scrollHeight); // Auto scroll to the bottom
+                    }
+                });
+            }
+        }
+
+        $('#user-input').keypress(function(e) {
+            if (e.which == 13) {  // Enter key
+                sendMessage();
+            }
+        });
+    </script>
+</body>
+</html>
