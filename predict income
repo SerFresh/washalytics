@@ -39,11 +39,11 @@ plt.figure(figsize=(12, 6))
 plt.plot(full_dates, full_values, label="Actual & Forecasted Income", color="#29B6F6", linewidth=2, marker='o', linestyle='-')
 
 # **เพิ่มเส้นแบ่งอดีต-ปัจจุบัน**
-plt.axvline(x=split_date, color="orange", linestyle="--", linewidth=2, label="Forecast Start")
+plt.axvline(x=split_date, color="gray", linestyle="--", linewidth=1.5, label="Forecast Start")
 
 # ปรับแต่งกราฟให้อ่านง่ายขึ้น
 plt.xlabel("Date", fontsize=12)
-plt.ylabel("Income (Monthly Avg.)", fontsize=12)
+plt.ylabel("Income (THB)", fontsize=12)
 plt.title(f"Laundry Shop Income Forecast (Next {future_months} Months)", fontsize=14, fontweight="bold")
 plt.xticks(rotation=45)
 plt.grid(True, linestyle="--", alpha=0.6)
@@ -60,7 +60,7 @@ plt.tight_layout()
 plt.show()
 
 # แสดงค่าพยากรณ์เป็นตาราง
-forecast_df = pd.DataFrame({"Date": future_dates, "Predicted_Income": forecast})
+forecast_df = pd.DataFrame({"Date": future_dates, "Predicted_Income(THB)": forecast})
 print(forecast_df)
 
 
