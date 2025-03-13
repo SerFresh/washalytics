@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { Link ,useNavigate } from "react-router-dom";
 import axios from 'axios';
 
@@ -6,21 +6,6 @@ const Home = ({Review, Machine, Profile}) => {
     const limitedReviews = Review.slice(0, 2);
     const navigate = useNavigate();
     const [isAddVisible, setIsAddVisible] = useState(false);
-    const [data, setData] = useState([]);
-
-    // ใช้ useEffect เพื่อดึงข้อมูลเมื่อคอมโพเนนต์ถูก mount
-    useEffect(() => {
-        const fetchData = async () => {
-        try {
-            const response = await axios.get('http://localhost:8000/api/your-endpoint/');
-            setData(response.data);  // เก็บข้อมูลใน state
-        } catch (error) {
-            console.error('Error fetching data:', error);
-        }
-        };
-
-        fetchData();
-    }, []);
 
     const handleCancle = () => {
         setIsAddVisible(false);
