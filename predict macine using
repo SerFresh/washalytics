@@ -67,7 +67,7 @@ for column in df_weekly.columns:
     plt.plot(df_weekly.index, df_weekly[column], label=f'{column.capitalize()}', color=colors[column], linewidth=2)
 
 # เพิ่มเส้นแบ่งระหว่างข้อมูลจริงและข้อมูลพยากรณ์
-plt.axvline(x=df_weekly.index[len(df_weekly) - future_days // 7], color='gray', linestyle='--', linewidth=1, label='Forecast Start')
+plt.axvline(x=df_weekly.index[len(df_weekly) - future_days // 7], color='gray', linestyle='--', linewidth=1.5, label='Forecast Start')
 
 # ปรับแต่งกราฟ
 plt.title(f'Washing Machine and Dryer Usage Trend (Weekly Average, Forecast for {future_days} Days)', fontsize=16)
