@@ -1,0 +1,118 @@
+import pandas as pd
+import numpy as np
+import matplotlib.pyplot as plt
+import joblib
+from statsmodels.tsa.holtwinters import ExponentialSmoothing
+
+# โหลดข้อมูล
+data = pd.read_csv('WashAnalytics_Machine_using.csv')
+data['Date'] = pd.to_datetime(data['Date'])
+data.set_index('Date', inplace=True)
+
+# รับค่าจำนวนวันที่ผู้ใช้ต้องการพยากรณ์
+future_days = int(input("กรุณากรอกจำนวนวันที่ต้องการพยากรณ์: "))
+
+# แยกข้อมูลแต่ละประเภทของเครื่อง
+y_small = data['small'].values
+y_medium = data['medium'].values
+y_large = data['large'].values
+y_dryer = data['dryer'].values
+
+# ใช้ Exponential Smoothing (Holt-Winters Method)
+model_small = ExponentialSmoothing(y_small, trend="add", seasonal=None).fit()
+model_medium = ExponentialSmoothing(y_medium, trend="add", seasonal=None).fit()
+model_large = ExponentialSmoothing(y_large, trend="add", seasonal=None).fit()
+model_dryer = ExponentialSmoothing(y_dryer, trend="add", seasonal=None).fit()
+
+# ทำนายข้อมูลในอนาคต
+y_small_pred = np.maximum(model_small.forecast(future_days), 0)
+y_medium_pred = np.maximum(model_medium.forecast(future_days), 0)
+y_large_pred = np.maximum(model_large.forecast(future_days), 0)
+y_dryer_pred = np.maximum(model_dryer.forecast(future_days), 0)
+
+# เพิ่ม Noise ให้ข้อมูลพยากรณ์ เพื่อให้ดูมีความผันผวนบ้าง
+np.random.seed(42)
+y_small_pred += np.random.normal(scale=np.std(y_small) * 1.0, size=future_days)
+y_medium_pred += np.random.normal(scale=np.std(y_medium) * 1.0, size=future_days)
+y_large_pred += np.random.normal(scale=np.std(y_large) * 1.0, size=future_days)
+y_dryer_pred += np.random.normal(scale=np.std(y_dryer) * 1.0, size=future_days)
+
+
+# สร้างช่วงวันที่ในอนาคต
+future_dates = pd.date_range(start=data.index[-1] + pd.Timedelta(days=1), periods=future_days, freq='D')
+
+# รวมข้อมูลจริงและข้อมูลพยากรณ์
+df_combined = pd.DataFrame({
+    'Date': pd.concat([data.index.to_series(), pd.Series(future_dates)]),
+    'small': np.concatenate([y_small, y_small_pred]),
+    'medium': np.concatenate([y_medium, y_medium_pred]),
+    'large': np.concatenate([y_large, y_large_pred]),
+    'dryer': np.concatenate([y_dryer, y_dryer_pred])
+})
+
+# ตั้งค่าคอลัมน์ Date เป็น index
+df_combined.set_index('Date', inplace=True)
+
+# รวมข้อมูลเป็นรายสัปดาห์ (หาค่าเฉลี่ยรายสัปดาห์)
+df_weekly = df_combined.resample('W').mean()
+
+# สร้างกราฟเส้นแนวโน้ม
+plt.figure(figsize=(14, 8))
+
+# สีของแต่ละประเภทเครื่อง
+colors = {'small': '#B8CF7E', 'medium': '#FFD66B', 'large': '#F28B82', 'dryer': '#29B6F6'}
+
+# พล็อตข้อมูลจริงและพยากรณ์
+for column in df_weekly.columns:
+    plt.plot(df_weekly.index, df_weekly[column], label=f'{column.capitalize()}', color=colors[column], linewidth=2)
+
+# เพิ่มเส้นแบ่งระหว่างข้อมูลจริงและข้อมูลพยากรณ์
+plt.axvline(x=df_weekly.index[len(df_weekly) - future_days // 7], color='gray', linestyle='--', linewidth=1, label='Forecast Start')
+
+# ปรับแต่งกราฟ
+plt.title(f'Washing Machine and Dryer Usage Trend (Weekly Average, Forecast for {future_days} Days)', fontsize=16)
+plt.xlabel('Date', fontsize=14)
+plt.ylabel('Usage Count (Weekly Average)', fontsize=14)
+plt.legend(fontsize=12, bbox_to_anchor=(1.05, 1), loc='upper left')
+plt.grid(True, linestyle='--', alpha=0.7)
+plt.tight_layout()
+
+# แสดงกราฟ
+plt.show()
+
+# วิเคราะห์ค่าเฉลี่ยการใช้งานที่พยากรณ์
+avg_small = np.mean(y_small_pred)
+avg_medium = np.mean(y_medium_pred)
+avg_large = np.mean(y_large_pred)
+avg_dryer = np.mean(y_dryer_pred)
+
+print(f"📊 Average predicted usage per day (next {future_days} days):")
+print(f"- Small Washing Machine: {avg_small:.2f}")
+print(f"- Medium Washing Machine: {avg_medium:.2f}")
+print(f"- Large Washing Machine: {avg_large:.2f}")
+print(f"- Dryer: {avg_dryer:.2f}")
+
+# คำแนะนำ
+recommendations = []
+if avg_small < avg_medium and avg_small < avg_large and avg_small < avg_dryer:
+    recommendations.append("❌ ควรลดจำนวน Small Washing Machines เนื่องจากมีการใช้งานต่ำสุด")
+if avg_medium < avg_small and avg_medium < avg_large and avg_medium < avg_dryer:
+    recommendations.append("❌ ควรลดจำนวน Medium Washing Machines เนื่องจากมีการใช้งานต่ำสุด")
+if avg_large < avg_small and avg_large < avg_medium and avg_large < avg_dryer:
+    recommendations.append("❌ ควรลดจำนวน Large Washing Machines เนื่องจากมีการใช้งานต่ำสุด")
+if avg_dryer > avg_small and avg_dryer > avg_medium and avg_dryer > avg_large:
+    recommendations.append("✅ ควรเพิ่มจำนวน Dryers เนื่องจากมีการใช้งานสูงสุด")
+
+# แสดงคำแนะนำ
+print("\n📌 Recommendations:")
+for rec in recommendations:
+    print(f"- {rec}")
+
+# Save model
+models = {
+    "small": model_small,
+    "medium": model_medium,
+    "large": model_large,
+    "dryer": model_dryer
+}
+joblib.dump(models, 'Predict machine using.joblib')
