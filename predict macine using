@@ -81,16 +81,16 @@ plt.tight_layout()
 plt.show()
 
 # วิเคราะห์ค่าเฉลี่ยการใช้งานที่พยากรณ์
-avg_small = np.mean(y_small_pred)
-avg_medium = np.mean(y_medium_pred)
-avg_large = np.mean(y_large_pred)
-avg_dryer = np.mean(y_dryer_pred)
+avg_small = round(np.mean(y_small_pred))
+avg_medium = round(np.mean(y_medium_pred))
+avg_large = round(np.mean(y_large_pred))
+avg_dryer = round(np.mean(y_dryer_pred))
 
 print(f"📊 Average predicted usage per day (next {future_days} days):")
-print(f"- Small Washing Machine: {avg_small:.2f}")
-print(f"- Medium Washing Machine: {avg_medium:.2f}")
-print(f"- Large Washing Machine: {avg_large:.2f}")
-print(f"- Dryer: {avg_dryer:.2f}")
+print(f"- Small Washing Machine: {avg_small:.2f} times")
+print(f"- Medium Washing Machine: {avg_medium:.2f} times")
+print(f"- Large Washing Machine: {avg_large:.2f} times")
+print(f"- Dryer: {avg_dryer:.2f} times")
 
 # คำแนะนำ
 recommendations = []
