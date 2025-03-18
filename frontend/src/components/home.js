@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { Link ,useNavigate } from "react-router-dom";
 import axios from 'axios';
 
+//ไปที่บรรทัด 114
 const Home = ({Review, Machine, Profile}) => {
     const limitedReviews = Review.slice(0, 2);
     const navigate = useNavigate();
@@ -109,7 +110,7 @@ const Home = ({Review, Machine, Profile}) => {
                         <p className='Title-money'>Daily</p>
                         <p className='Daily margin-money'>N/a <p className='bath'>THB</p></p>
                         </div>
-
+                        /*-------------บรรทัดนี้-----------*/
                         <div className='cont'>
                             <div className='square'> 
                                 <iframe 
@@ -121,6 +122,7 @@ const Home = ({Review, Machine, Profile}) => {
                                 allowFullScreen="true"></iframe>
                             </div>
                         </div>
+                        /*-------------ถึงนี่-----------*/
                     </div>
                     <div>
                         <div className='line-machine'>
