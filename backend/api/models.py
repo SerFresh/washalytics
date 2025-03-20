@@ -12,6 +12,7 @@ class Customer(models.Model):
     address = models.CharField(max_length=255, blank=True, null=True)
     telephone = models.CharField(max_length=15, blank=True, null=True)
     password = models.CharField(max_length=128)
+    photo = models.ImageField(upload_to='profiles/', null=True, blank=True, default='profiles/default-profile.jpg')
 
     def save(self, *args, **kwargs):
         """ แฮชรหัสผ่านก่อนบันทึก ถ้ามีการเปลี่ยนแปลง """
