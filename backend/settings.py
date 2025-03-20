@@ -48,9 +48,30 @@ MIDDLEWARE = [
     'corsheaders.middleware.CorsMiddleware',
 ]
 
-CORS_ORIGIN_ALLOW_ALL = True  # สำหรับอนุญาตทุกโดเมน
 
+APPEND_SLASH = False
+
+CORS_ORIGIN_ALLOW_ALL = True  # สำหรับอนุญาตทุกโดเมน
+CORS_ALLOW_ALL_ORIGINS = True
 CSRF_TRUSTED_ORIGINS = ["http://127.0.0.1:3000"]  # ให้ React ส่งข้อมูลได้
+
+# ✅ อนุญาตให้ React (localhost:3000) ใช้งาน API
+CORS_ALLOWED_ORIGINS = [
+    "http://localhost:3000",  # ✅ React Frontend
+]
+
+# ✅ อนุญาตให้ส่ง Cookie / Token ไปกับ API
+CORS_ALLOW_CREDENTIALS = True
+CORS_ALLOW_METHODS = ["GET", "POST", "PUT", "DELETE", "OPTIONS"]
+CORS_ALLOW_HEADERS = ["*"]
+
+import os
+MEDIA_URL = '/media/'  
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+
+# อนุญาตให้ React เข้าถึง Media Files
+from django.conf import settings
+from django.conf.urls.static import static
 
 
 ROOT_URLCONF = 'backend.urls'
